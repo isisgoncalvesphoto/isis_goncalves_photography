@@ -1,5 +1,11 @@
 // Slick Carousel Initializations
 $(document).ready(function() {
+  // Ensure page loads at the very top
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   $('.index-carousel').slick({
     dots: false,
     arrows: false,
@@ -179,17 +185,6 @@ $('#contact-form').submit(function(e) {
     });
 });
 
-
-
-
-//   const subject = selectedService ? `New Inquiry: ${selectedService}` : 'New Inquiry';
-//   alert(`Form submitted successfully!\nSubject: ${subject}`);
-//   this.reset();
-//   $('.form-section').removeClass('show');
-//   $('.service-btn, .analog-btn').removeClass('selected');
-//   $('#submit-btn, .form-container').removeClass('show');
-// });
-
 // Intersection Observer for .animate-me
 const animateObserver = new IntersectionObserver(
   (entries) => {
@@ -203,8 +198,12 @@ const animateObserver = new IntersectionObserver(
     threshold: 0.1
   }
 );
-document.querySelectorAll('.animate-me').forEach((element) => animateObserver.observe(element));
+// Only observe elements not inside the wedding gallery
+document.querySelectorAll('.animate-me').forEach((element) => {
+  if (!element.closest('.wed-gallery')) animateObserver.observe(element);
+});
 
+// Fade-in title of gallery on visibility in view (exclude wedding gallery)
 const galleryObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -222,27 +221,28 @@ const galleryObserver = new IntersectionObserver(
     threshold: 0.8 // Higher threshold for titles to appear when gallery is mostly in view
   }
 );
-document.querySelectorAll('.gallery-container').forEach((gallery) => galleryObserver.observe(gallery));
+// Only observe non-wedding galleries
+document.querySelectorAll('.gallery-container').forEach((gallery) => {
+  if (!gallery.closest('.wed-gallery')) galleryObserver.observe(gallery);
+});
 
-// // Intersection Observer for gallery titles
-// const galleryObserver = new IntersectionObserver(
-//   (entries) => {
-//     entries.forEach((entry) => {
-//       const title = entry.target.querySelector('.gallery-name');
-//       if (entry.isIntersecting) {
-//         title.classList.add('visible');
-//       } else {
-//         title.classList.remove('visible');
-//       }
-//     });
-//   },
-//   {
-//     root: null,
-//     rootMargin: '-20% 0px -20% 0px',
-//     threshold: 0.5
-//   }
-// );
-// document.querySelectorAll('.gallery-container').forEach((gallery) => galleryObserver.observe(gallery));
+// Make wedding gallery title and photos fade in on page load (title 0.5s earlier)
+$(document).ready(function() {
+  // Keep scroll at top on load (in case other ready handlers run later)
+  window.scrollTo(0, 0);
+
+  if ($('.wed-gallery').length) {
+    // Title first
+    setTimeout(function() {
+      $('.wed-gallery .gallery-name').addClass('visible');
+    });
+
+    // Photos 0.5s later
+    setTimeout(function() {
+      $('.wed-gallery .animate-me').addClass('visible');
+    }, 500);
+  }
+});
 
 $(document).ready(function() {
   // Select the containers
@@ -344,37 +344,3 @@ $(document).ready(function() {
     scrollToSection(sectionSelector);
   }
 });
-
-// // Intersection Observers
-// const animateObserver = new IntersectionObserver(
-//   (entries) => {
-//     entries.forEach((entry) => {
-//       entry.target.classList.toggle('visible', entry.isIntersecting);
-//     });
-//   },
-//   {
-//     root: null,
-//     rootMargin: '200px',
-//     threshold: 0.1
-//   }
-// );
-// document.querySelectorAll('.animate-me').forEach((element) => animateObserver.observe(element));
-
-// const galleryObserver = new IntersectionObserver(
-//   (entries) => {
-//     entries.forEach((entry) => {
-//       const title = entry.target.querySelector('.gallery-name');
-//       if (entry.isIntersecting) {
-//         title.classList.add('visible');
-//       } else {
-//         title.classList.remove('visible');
-//       }
-//     });
-//   },
-//   {
-//     root: null,
-//     rootMargin: '-20% 0px -20% 0px',
-//     threshold: 0.8
-//   }
-// );
-// document.querySelectorAll('.gallery-container').forEach((gallery) => galleryObserver.observe(gallery));

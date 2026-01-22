@@ -10830,13 +10830,23 @@ return jQuery;
     // Github issue: https://github.com/lokesh/lightbox2/issues/663
     $('<div id="lightboxOverlay" tabindex="-1" class="lightboxOverlay"></div><div id="lightbox" tabindex="-1" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt=""/><div class="lb-nav"><a class="lb-prev" role="button" tabindex="0" aria-label="Previous image" href="" style="transform: translateX(-3rem)"></a><a class="lb-next" role="button" tabindex="0" aria-label="Next image" href="" style="transform: translateX(3rem)"></a></div><div class="lb-loader"><a class="lb-cancel" role="button" tabindex="0"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close" role="button" tabindex="0"></a></div></div></div></div>').appendTo($('body'));
 
-    // Cache jQuery objects
-    this.$lightbox       = $('#lightbox');
-    this.$overlay        = $('#lightboxOverlay');
-    this.$outerContainer = this.$lightbox.find('.lb-outerContainer');
-    this.$container      = this.$lightbox.find('.lb-container');
-    this.$image          = this.$lightbox.find('.lb-image');
-    this.$nav            = this.$lightbox.find('.lb-nav');
+	// Cache jQuery objects
+	this.$lightbox       = $('#lightbox');
+	this.$overlay        = $('#lightboxOverlay');
+	this.$outerContainer = this.$lightbox.find('.lb-outerContainer');
+	this.$container      = this.$lightbox.find('.lb-container');
+	this.$image          = this.$lightbox.find('.lb-image');
+	this.$nav            = this.$lightbox.find('.lb-nav');
+
+	// Position the close button fixed at the top-right of the viewport with a high z-index
+	// Add an additional class for easy CSS targeting if desired.
+	var $close = this.$lightbox.find('.lb-close');
+	$close.addClass('jb-close').css({
+	  position: 'fixed',
+	  top: '16px',
+	  right: '16px',
+	  zIndex: 10000
+	});
 
     // Store css values for future lookup
     this.containerPadding = {
