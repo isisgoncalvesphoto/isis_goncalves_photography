@@ -173,7 +173,7 @@ $('#contact-form').submit(function(e) {
   }
 
   // Send email via EmailJS
-  emailjs.send('service_8yf5n75', 'template_3fhmg0q', formData)
+  emailjs.send('service_uqwrq4n', 'template_3fhmg0q', formData)
     .then(function(response) {
       alert('Form submitted successfully! We’ll get back to you soon.');
       this.reset();
